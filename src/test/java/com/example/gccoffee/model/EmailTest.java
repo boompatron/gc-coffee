@@ -15,6 +15,13 @@ class EmailTest {
     @Test
     void ValidEmailTest(){
         var email = new Email("a@email.com");
-        assertTrue(email.getAddress() == "a@email.com");
+        assertEquals(email.getAddress(), "a@email.com");
+    }
+
+    @Test
+    void emailEqTest(){
+        var email1 = new Email("a@email.com");
+        var email2 = new Email("a@email.com");
+        assertEquals(email1, email2);
     }
 }
