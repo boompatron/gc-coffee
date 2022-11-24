@@ -24,12 +24,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test" )
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProductJdbcRepositoryTest {
 
-    static EmbeddedMysql embeddedMysql;
+    EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    static void setUp(){
+    void setUp(){
         var config = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -42,7 +43,7 @@ class ProductJdbcRepositoryTest {
     }
 
     @AfterAll
-    static void cleanUp(){
+    void cleanUp(){
         embeddedMysql.stop();
     }
 
@@ -58,6 +59,30 @@ class ProductJdbcRepositoryTest {
         repository.insert(newProduct);
         var all = repository.findAll();
         assertThat(all.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("이름으로 상품 조회 가능 테스트")
+    void findByNameTest(){
+        var product = repository.findByName(newProduct.getProductName());
+        assertThat(product.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("ID로 상품 조회 가능 테스트")
+    void findByIdTest(){
+        var product = repository.findById(newProduct.getProductId());
+        assertThat(product.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("카테고리로 상품 조회 가능 테스트")
+    void findByCategoryTest(){
+        var product = repository.findByCategory(Category.COFFEE_BEAN_PACKEAGE);
+        assertThat(product.isEmpty(), is(false));
     }
 
 }

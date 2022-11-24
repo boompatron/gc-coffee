@@ -60,7 +60,7 @@ public class ProductJdbcRepository implements ProductRepository{
     public Optional<Product> findByName(String name) {
         try {
             return Optional.ofNullable(
-                    namedParameterJdbcTemplate.queryForObject("select * from products where product_name = :name",
+                    namedParameterJdbcTemplate.queryForObject("select * from products where product_name = :productName",
                             Collections.singletonMap("productName", name), productRowMapper)
             );
         }catch (EmptyResultDataAccessException e){
@@ -92,6 +92,9 @@ public class ProductJdbcRepository implements ProductRepository{
     };
 
     private Map<String, Object> toParamMap(Product product){
+        // 이 방식으로 생성한는 이유
+        // Map.of로 생성하면 null 이 들어오면 안됨
+        // 그래서 불편하지만 new 연산자를 이융해서 map 생성함
         var paramMap = new HashMap<String, Object>();
         paramMap.put("productId", product.getProductId().toString().getBytes());
         paramMap.put("productName", product.getProductName());
