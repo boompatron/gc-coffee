@@ -41,7 +41,12 @@ public class ProductJdbcRepository implements ProductRepository{
 
     @Override
     public Product update(Product product) {
-        return null;
+        var update = namedParameterJdbcTemplate.update(
+                "update products set product_name = :productName, category = :category, price = :price, description = :description, created_at = :createdAt, updated_at = :updatedAt"
+                + " where product_id = UUID_TO_BIN(:productId)", toParamMap(product));
+        if(update != 1)
+            throw new RuntimeException("nothing was updated");
+        return product;
     }
 
     @Override
@@ -76,7 +81,7 @@ public class ProductJdbcRepository implements ProductRepository{
 
     @Override
     public void deleteAll() {
-
+        namedParameterJdbcTemplate.update("delete from products", Collections.emptyMap());
     }
 
     private final static RowMapper<Product> productRowMapper = (resultSet, i) -> {
@@ -94,7 +99,7 @@ public class ProductJdbcRepository implements ProductRepository{
     private Map<String, Object> toParamMap(Product product){
         // 이 방식으로 생성한는 이유
         // Map.of로 생성하면 null 이 들어오면 안됨
-        // 그래서 불편하지만 new 연산자를 이융해서 map 생성함
+        // 그래서 불편하지만 new 연산자를 이융해서 map 생성
         var paramMap = new HashMap<String, Object>();
         paramMap.put("productId", product.getProductId().toString().getBytes());
         paramMap.put("productName", product.getProductName());

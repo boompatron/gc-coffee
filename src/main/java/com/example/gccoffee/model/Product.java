@@ -12,7 +12,7 @@ public class Product {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
-    public Product(UUID productId, String productName, Category category, long pricec) {
+    public Product(UUID productId, String productName, Category category, long price) {
         this.productId = productId;
         this.productName = productName;
         this.category = category;
