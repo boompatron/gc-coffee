@@ -106,8 +106,8 @@ public class ProductJdbcRepository implements ProductRepository{
         paramMap.put("category", product.getCategory().toString());
         paramMap.put("price", product.getPrice());
         paramMap.put("description", product.getDescription());
-        paramMap.put("createdAt", product.getCreateAt());
-        paramMap.put("updatedAt", product.getUpdateAt());
+        paramMap.put("createdAt", product.getCreatedAt());
+        paramMap.put("updatedAt", product.getUpdatedAt());
         return paramMap;
     }
 }

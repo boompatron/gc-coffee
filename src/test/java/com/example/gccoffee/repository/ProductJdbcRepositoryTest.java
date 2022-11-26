@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@ActiveProfiles("test" )
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ProductJdbcRepositoryTest {
 
@@ -50,7 +50,7 @@ class ProductJdbcRepositoryTest {
     @Autowired
     ProductRepository repository;
 
-    final Product newProduct = new Product(UUID.randomUUID(), "new-product", Category.COFFEE_BEAN_PACKEAGE, 1000L);
+    final Product newProduct = new Product(UUID.randomUUID(), "new-product", Category.COFFEE_BEAN_PACKAGE, 1000L);
 
     @Test
     @Order(1)
@@ -81,7 +81,7 @@ class ProductJdbcRepositoryTest {
     @Order(4)
     @DisplayName("카테고리로 상품 조회 가능 테스트")
     void findByCategoryTest(){
-        var product = repository.findByCategory(Category.COFFEE_BEAN_PACKEAGE);
+        var product = repository.findByCategory(Category.COFFEE_BEAN_PACKAGE);
         assertThat(product.isEmpty(), is(false));
     }
 
